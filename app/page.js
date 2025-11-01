@@ -1,66 +1,44 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+import SearchFilters from '../components/books/SearchFilters';
+import BookGrid from '../components/books/BookGrid';
+import BookModal from '../components/books/BookModal';
+import AuthModal from '../components/auth/AuthModal';
+import { useAuth } from '../hooks/useAuth';
+import { useBooks } from '../hooks/useBooks';
+import { initialBooks } from '../lib/mockData';
+import SearchBar from '@/components/books/SearchBar';
 
-export default function Home() {
+export default function HomePage() {
+  const { user, showAuthModal, setShowAuthModal } = useAuth();
+  const {filteredBooks,searchTerm,setSearchTerm,selectedCategory,setSelectedCategory,expandedBook,setExpandedBook,showBookModal,setShowBookModal,editingBook,setEditingBook,borrowedBooks,handleAddBook,handleDeleteBook,handleBorrow,handleReturn} =useBooks(initialBooks);
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.js file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main className="min-h-screen grid content-center justify-items-center overflow-hidden bg-gray-950 py-5">
+      {/* Background blur when auth modal is open */}
+      {showAuthModal && (<div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40" />)}
+      <div className='z-30 w-full items-center justify-center'><SearchBar  searchTerm={searchTerm}  onSearchChange={setSearchTerm}  isAdmin={user?.isAdmin}  onAddBook={() => {setEditingBook(null);setShowBookModal(true);}}/></div>
+      <section className={`max-w-7xl z-0 mx-auto pt-16 px-4 py-8 grid content-center justify-items-center gap-5 transition-all duration-300 ${
+        showAuthModal ? 'blur-sm pointer-events-none' : ''}`}>
+        <SearchFilters searchTerm={searchTerm} onSearchChange={setSearchTerm} selectedCategory={selectedCategory} onCategoryChange={setSelectedCategory} isAdmin={user?.isAdmin}/>
+        <BookGrid books={filteredBooks} user={user} expandedBook={expandedBook} onExpandBook={setExpandedBook} onEditBook={(book) => {setEditingBook(book);setShowBookModal(true);}} onDeleteBook={handleDeleteBook} onBorrowBook={handleBorrow} onReturnBook={handleReturn} borrowedBooks={borrowedBooks}/>
+      </section>
+
+      {/* Book Management Modal */}
+{showBookModal && (
+  <BookModal 
+    book={editingBook} 
+    onClose={() => { 
+      setShowBookModal(false);
+      setEditingBook(null);
+    }} 
+    onSave={handleAddBook}
+  />
+)}
+
+      {/* Authentication Modal */}
+      {showAuthModal && (
+        <AuthModal onClose={() => setShowAuthModal(false)} />
+      )}
+    </main>
   );
 }

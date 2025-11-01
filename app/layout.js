@@ -3,6 +3,7 @@ import "./globals.css";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { AuthProvider } from "@/hooks/useAuth";
 
 
 const geistSans = Geist({
@@ -35,11 +36,13 @@ export default function RootLayout({ children }) {
     <html lang="en">
       
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Navbar/>
-        <main className="min-h-screen relative">
-          {children}
-        </main>
-        <Footer/>
+        <AuthProvider>
+          <Navbar/>
+          <main className="min-h-screen relative">
+            {children}
+          </main>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );
