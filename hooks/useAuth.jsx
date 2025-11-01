@@ -1,5 +1,7 @@
 "use client";
-import { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo } from "react";
+import { auth } from "../lib/firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
 // Create context
 const AuthContext = createContext(undefined);
@@ -8,32 +10,47 @@ const AuthContext = createContext(undefined);
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const handleSignOut = () => {
-    setUser(null);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
   };
 
-  const value = useMemo(() => ({
-    user,
-    setUser,
-    showAuthModal,
-    setShowAuthModal,
-    handleSignOut,
-    handleSignIn: () => setShowAuthModal(true)
-  }), [user, showAuthModal]);
-
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({
+      user,
+      setUser,
+      showAuthModal,
+      setShowAuthModal,
+      handleSignOut,
+      handleSignIn: () => setShowAuthModal(true),
+      loading,
+    }),
+    [user, showAuthModal, loading]
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 // Hook to use auth
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }
