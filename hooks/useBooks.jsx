@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { fetchBooks, borrowBook, returnBook }  from '@/lib/mockData';
+import { fetchBooks, borrowBook, returnBook } from '@/lib/mockData'; // ✅ Correct import
 
 export function useBooks() {
   const [books, setBooks] = useState([]);
@@ -53,9 +53,6 @@ export function useBooks() {
     setFilteredBooks(result);
   }, [searchTerm, selectedCategory, books]);
 
-  
-
-  
   const handleBorrow = async (bookId) => {
     try {
       console.log('📚 Borrowing book:', bookId);
