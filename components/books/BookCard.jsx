@@ -160,11 +160,17 @@ const handleMouseUp = () => {
                 {/* Action Buttons - Responsive */}
                 <div className="flex flex-wrap gap-2 sm:gap-3 items-center justif">
                   {book.copies > 0 && !isBorrowed && (
-                    <button onClick={(e) => handleAction(onBorrow, e)}  className="flex items-center gap-2 bg-gradient-to-br from-indigo-900 to-blue-500 hover:bg-blue-300 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl transition-all duration-300 hover:shadow-lg font-semibold text-sm sm:text-base flex-1 sm:flex-none justify-center"><BookOpen size={16} className="sm:w-4 sm:h-4" />Borrow Book</button>
+                   <button onClick={(e) => {
+  e.stopPropagation();
+  onBorrow(book.id);  // Passer book.id au lieu de book
+}}  className="flex items-center gap-2 bg-gradient-to-br from-indigo-900 to-blue-500 hover:bg-blue-300 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl transition-all duration-300 hover:shadow-lg font-semibold text-sm sm:text-base flex-1 sm:flex-none justify-center"><BookOpen size={16} className="sm:w-4 sm:h-4" />Borrow Book</button>
                   )}
                   
                   {isBorrowed && (
-                    <button  onClick={(e) => handleAction(onReturn, e)}  className="flex items-center gap-2 bg-gradient-to-br from-emerald-900 to-blue-500 hover:bg-blue-300 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl transition-all duration-300 hover:shadow-lg font-semibold text-sm sm:text-base flex-1 sm:flex-none justify-center">Return Book</button>
+                    <button onClick={(e) => {
+  e.stopPropagation();
+  onReturn(book.id);  // Passer book.id au lieu de book
+}} className="flex items-center gap-2 bg-gradient-to-br from-emerald-900 to-blue-500 hover:bg-blue-300 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl transition-all duration-300 hover:shadow-lg font-semibold text-sm sm:text-base flex-1 sm:flex-none justify-center">Return Book</button>
                   )}
                   
                   {isAdmin && (
