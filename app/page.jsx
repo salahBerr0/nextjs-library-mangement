@@ -185,9 +185,7 @@ export default function HomePage() {
   </div>
 </nav>
 
-
-
-      {/* Filters */}
+{/* Filters */}
         <div className={`rounded-2xl p-6 mb-6 transition-all duration-500 border backdrop-blur-sm ${
           isDarkMode 
             ? 'bg-slate-800/50 border-slate-700' 
@@ -201,12 +199,14 @@ export default function HomePage() {
             isAdmin={user?.role === "admin"}
           />
         </div>
-         
+
+
+      
 
       {/* Hero Section */}
-      <div className="relative z-10 pt-12 pb-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-6">
+      <div className="relative z-10 pt-8 pb-6">
+        <div className="max-w-2xl mx-auto px-2 sm:px-4 lg:px-6">
+          <div className="text-center space-y-4">
             {/* Badge */}
             <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-500 backdrop-blur-sm ${
               isDarkMode 
@@ -226,12 +226,6 @@ export default function HomePage() {
            
             
 
-            {/* Subtitle */}
-            <p className={`text-lg max-w-2xl mx-auto transition-colors duration-500 ${
-              isDarkMode ? 'text-slate-400' : 'text-gray-600'
-            }`}>
-              Explore our curated collection, borrow your favorites, and track your reading journey
-            </p>
             
 
            
