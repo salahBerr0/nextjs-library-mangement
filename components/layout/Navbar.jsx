@@ -3,12 +3,18 @@ import { BookOpen, User, Bell, Menu, X, Settings } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import Link from 'next/link';
+import { useRouter } from "next/navigation";
+import {  Sun, Moon } from 'lucide-react';
 
 
 
 
 export default function Navbar() {
+  const router=useRouter();
   const { user, handleSignIn, handleSignOut } = useAuth();
+  console.log('User complet:', user);
+  console.log('User role:', user?.role);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -37,17 +43,26 @@ export default function Navbar() {
       <nav className={`bg-white/95 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50 transition-all duration-300 ${ isScrolled ? 'shadow-lg' : 'shadow-sm'}`} style={{boxShadow:"0 0 15px #ffffff"}}>
         <div className="max-w-7xl flex items-center justify-between h-16 mx-auto px-4 sm:px-6 lg:px-8">
           <Link href='/' className="flex items-center space-x-3">
-            <BookOpen className="w-6 h-6 text-blue-600" />
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-900 to-indigo-500 bg-clip-text text-transparent">Book Wise</h1>
+            <BookOpen className="w-6 h-6 text-green-600" />
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-900 to-indigo-500 bg-clip-text text-transparent">BookWise</h1>
           </Link>
-          {user?.isAdmin && (
-            <Link href='/admin' className="flex items-center space-x-1 px-3 py-2 rounded-lg text-gray-700 hover:text-blue-700 hover:bg-blue-50 transition-all duration-200 font-medium">
-              <Settings className="w-4 h-4" />
-              <span>Admin Dashboard</span>
-            </Link>
-            )}
+         
           {/* Right Side Actions */}
           <div className="flex items-center space-x-3">
+            <button
+                    onClick={() => setIsDarkMode(!isDarkMode)}
+                    className="p-2.5 bg-slate-800/50 hover:bg-slate-700/50 rounded-lg border border-slate-700 transition-all duration-300 group"
+                    aria-label="Toggle dark mode"
+                  >
+                    <div className="relative w-5 h-5">
+                      <Sun className={`w-5 h-5 absolute transition-all duration-300 ${
+                        isDarkMode ? 'rotate-90 scale-0 opacity-0' : 'rotate-0 scale-100 opacity-100'
+                      } text-yellow-400`} />
+                      <Moon className={`w-5 h-5 absolute transition-all duration-300 ${
+                        isDarkMode ? 'rotate-0 scale-100 opacity-100' : '-rotate-90 scale-0 opacity-0'
+                      } text-blue-400`} />
+                    </div>
+                  </button>
             {/* Notifications */}
             {user && (
               <div className="relative">
@@ -69,31 +84,45 @@ export default function Navbar() {
                       <div className="text-sm font-semibold text-gray-900">
                         {getUserDisplayEmail().split('@')[0]}
                       </div>
-                      <div className="text-xs text-gray-500 flex items-center space-x-1">
-                        <span>{getUserDisplayEmail()}</span>
-                        {user.isAdmin && (<span className="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full font-medium">Admin</span>)}
-                      </div>
+                      
                     </div>
                   </button>
 
                   {/* Dropdown Menu */}
+                 
                   <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                    <div className="p-4 border-b border-gray-100">
-                      <div className="text-sm font-semibold text-gray-900">Account</div>
-                      <div className="text-xs text-gray-500 truncate">{getUserDisplayEmail()}</div>
-                    </div>
-                    <div className="p-2">
-                      <button className="w-full text-left px-3 py-2.5 text-sm text-gray-700 hover:bg-blue-50 rounded-lg transition-colors duration-150">Profile Settings</button>
-                      <button className="w-full text-left px-3 py-2.5 text-sm text-gray-700 hover:bg-blue-50 rounded-lg transition-colors duration-150">Borrowing History</button>
-                      <button className="w-full text-left px-3 py-2.5 text-sm text-gray-700 hover:bg-blue-50 rounded-lg transition-colors duration-150">Notifications</button>
-                    </div>
-                    <div className="p-2 border-t border-gray-100">
-                      <button onClick={handleSignOut} className="w-full text-left px-3 py-2.5 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-150 flex items-center justify-between">
-                        <span>Sign Out</span>
-                        <span className="text-red-400">→</span>
-                      </button>
-                    </div>
-                  </div>
+  {/* Section profil */}
+  <div className="p-4 border-b border-gray-100">
+    <div className="text-sm font-semibold text-gray-900">Account</div>
+    <div className="text-xs text-gray-500 truncate">{getUserDisplayEmail()}</div>
+  </div>
+
+  {/* ✅ Lien Dashboard si admin */}
+  {user && user.role === "admin" && (
+    <div className="p-2 border-t border-gray-100">
+      <button
+        onClick={() => router.push("/admin")}
+        className="w-full text-left px-3 py-2.5 text-sm text-blue-700 hover:bg-blue-50 rounded-lg transition-colors duration-150 flex items-center justify-between"
+      >
+        <span>Dashboard</span>
+        <span className="text-blue-400">→</span>
+      </button>
+    </div>
+  )}
+  
+
+  {/* Bouton Sign Out */}
+  <div className="p-2 border-t border-gray-100">
+    <button
+      onClick={handleSignOut}
+      className="w-full text-left px-3 py-2.5 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-150 flex items-center justify-between"
+    >
+      <span>Sign Out</span>
+      <span className="text-red-400">→</span>
+    </button>
+  </div>
+</div>
+
                 </div>
               </div>
             ) : (

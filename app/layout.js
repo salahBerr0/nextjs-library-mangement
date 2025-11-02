@@ -1,47 +1,30 @@
-import { Geist, Geist_Mono } from "next/font/google";
+"use client";
+
+import { geistSans, geistMono } from "@/app/fonts";
 import "./globals.css";
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { AuthProvider } from "@/hooks/useAuth";
+import { usePathname } from "next/navigation";
 
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: 'swap',
-  preload: true,
-  adjustFontFallback: true,
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: 'swap',
-  preload: false,
-  adjustFontFallback: true,
-});
-
-export const metadata = {
-  title: "Book Wise",
-  description: "Browse and borrow books from our digital library",
-  icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
-  },
-};
 
 export default function RootLayout({ children }) {
+  const pathname = usePathname();
+
+  // 🚫 Cacher Navbar + Footer sur certaines pages :
+  const hideNavbar =
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/register");
+
   return (
     <html lang="en">
-      
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <AuthProvider>
-          <Navbar/>
-          <main className="min-h-screen relative">
-            {children}
-          </main>
-          <Footer />
+          {!hideNavbar && <Navbar />}
+          <main className="min-h-screen relative">{children}</main>
+          {!hideNavbar && <Footer />}
         </AuthProvider>
       </body>
     </html>
