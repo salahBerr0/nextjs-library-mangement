@@ -1,7 +1,8 @@
 "use client";
 import { createContext, useContext, useState, useEffect, useMemo } from "react";
-import { auth } from "../lib/firebase";
+import { auth, db } from "../lib/firebase"; // ✅ Ajoutez db
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore"; // ✅ Ajoutez ces imports
 
 // Create context
 const AuthContext = createContext(undefined);
@@ -13,8 +14,26 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        // 🔥 Récupérer les données depuis Firestore members
+        try {
+          const memberDoc = await getDoc(doc(db, 'members', firebaseUser.uid));
+          const memberData = memberDoc.data();
+          
+          setUser({
+            ...firebaseUser,
+            role: memberData?.role || 'user', // ✅ Ajoute le role
+            username: memberData?.username,
+            type: memberData?.type,
+          });
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          setUser(firebaseUser); // Fallback sans role
+        }
+      } else {
+        setUser(null);
+      }
       setLoading(false);
     });
 
@@ -22,14 +41,15 @@ export function AuthProvider({ children }) {
   }, []);
 
   const handleSignOut = async () => {
-  try {
-    await signOut(auth);
-    setUser(null);
-    window.location.href = "/"; // 👈 AJOUT - Redirection vers home
-  } catch (error) {
-    console.error("Error signing out:", error);
-  }
-};
+    try {
+      await signOut(auth);
+      setUser(null);
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
   const value = useMemo(
     () => ({
       user,

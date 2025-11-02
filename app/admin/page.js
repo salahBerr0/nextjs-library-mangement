@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { auth,db } from "@/lib/firebase";
 import { signOut } from "firebase/auth";
+import { useAuth } from "@/hooks/useAuth";
+import Image from "next/image";
 import {
   collection,
   getDocs,
@@ -18,6 +20,7 @@ import {
 } from "firebase/firestore";
 
 export default function Home() {
+  const {user} = useAuth();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("books");
   const [books, setBooks] = useState([]);
@@ -28,15 +31,7 @@ export default function Home() {
     message: "",
     type: "success",
   });
- const handleSignOut = async () => {
-  try {
-    await signOut(auth);
-    setUser(null);
-    window.location.href = "/"; // 👈 AJOUT - Redirection vers home
-  } catch (error) {
-    console.error("Error signing out:", error);
-  }
-};
+ 
   const [editingBook, setEditingBook] = useState(null);
   const [editingMember, setEditingMember] = useState(null);
   const [searchBook, setSearchBook] = useState("");
@@ -57,7 +52,15 @@ export default function Home() {
     bookId: "",
     dueDate: "",
   });
-
+const handleSignOut = async () => {
+  try {
+    await signOut(auth);
+    
+    router.push ("/"); // 👈 AJOUT - Redirection vers home
+  } catch (error) {
+    console.error("Error signing out:", error);
+  }
+};
   useEffect(() => {
     loadBooks();
     loadMembers();
@@ -242,6 +245,7 @@ export default function Home() {
   );
 
   const availableBooks = books.filter((book) => book.available > 0);
+  
 
   // Stats
   const totalBooksCopies = books.reduce((sum, book) => sum + book.copies, 0);
@@ -251,18 +255,59 @@ export default function Home() {
     (m) => (m.borrowCount || 0) > 0).length;
 
   return (
+
+    
+    
     <div className='min-h-screen bg-gradient-to-br from-stone-100 via-neutral-50 to-stone-200 p-4 md:p-8'>
       <div className='max-w-7xl mx-auto'>
         {/* Header moderne avec gradient gris/marron */}
-        <header className='relative overflow-hidden bg-gradient-to-r from-[#1E2D26] via-[#2C4639] to-[#3E6B53] rounded-2xl shadow-xl p-8 mb-8'>
-          <div className='absolute inset-0 bg-gradient-to-br from-black/20 to-transparent'></div>
-          <div className='relative z-10'>
-            <h1 className='text-4xl md:text-5xl font-bold text-stone-50 mb-2 tracking-tight'>
-              📚 BiblioTech
+<header className="relative overflow-hidden bg-gradient-to-r from-[#004687] to-[#5a9bd6] rounded-2xl shadow-xl p-8 mb-8"
+>
+        <div className='absolute inset-0 bg-gradient-to-br from-black/20 to-transparent'></div>
+
+        <div className='relative z-10 flex items-center justify-between'>
+
+          {/* --- LOGO + TITRE --- */}
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.push("/")}>
+            <Image
+              src="/mustapha.png"
+              alt="none"
+              width={100}
+              height={100}
+              className="rounded-md"
+            />
+            <h1 className='text-4xl md:text-5xl font-bold text-stone-50 tracking-tight'>
+              BOOKWISE
             </h1>
           </div>
-          <div className='absolute -right-10 -bottom-10 w-40 h-40 bg-stone-400 opacity-10 rounded-full'></div>
-        </header>
+
+          {/* --- BOUTONS (Back + User) --- */}
+          <div className="flex items-center gap-4">
+
+            {/* Bouton Back */}
+            <button
+              onClick={() => router.push("/")}
+              className="px-6 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 border border-white/30 flex items-center gap-2 shadow-lg"
+            >
+              Back
+            </button>
+
+            {/* Menu utilisateur */}
+            {user && (
+              <button
+                onClick={handleSignOut}
+                className="px-6 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 border border-white/30 flex items-center gap-2 shadow-lg"
+              >
+                <span>👤</span>
+                <span className="text-sm sm:text-base">{user.email.split("@")[0]}</span>
+              </button>
+            )}
+          </div>
+        </div>
+      </header>
+
+
+
 
         {/* Alert modernisé */}
         {alert.show && (
@@ -288,7 +333,7 @@ export default function Home() {
             onClick={() => setActiveTab("books")}
             className={`px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 whitespace-nowrap ${
               activeTab === "books"
-                ? "bg-gradient-to-r from-[#2B3A29] via-[#3F5D43] to-[#4E7C55] text-stone-50 shadow-lg"
+                ? "bg-gradient-to-r from-[#005A9C] to-[#5a9bd6] text-stone-50 shadow-lg"
                 : "bg-white text-stone-700 hover:bg-stone-50 shadow-md border border-stone-300"
             }`}
           >
@@ -299,7 +344,7 @@ export default function Home() {
             onClick={() => setActiveTab("members")}
             className={`px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 whitespace-nowrap ${
               activeTab === "members"
-                ? "bg-gradient-to-r from-[#2B3A29] via-[#3F5D43] to-[#4E7C55] text-stone-50 shadow-lg"
+                ? "bg-gradient-to-r from-[#005A9C] to-[#5a9bd6] text-stone-50 shadow-lg"
                 : "bg-white text-stone-700 hover:bg-stone-50 shadow-md border border-stone-300"
             }`}
           >
@@ -313,7 +358,7 @@ export default function Home() {
           <div className='space-y-6'>
             {/* Statistiques en cartes modernes */}
             <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-6'>
-              <div className='bg-gradient-to-br from-[#2B3A29] via-[#3F5D43] to-[#4E7C55] rounded-2xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform'>
+              <div className='bg-gradient-to-br from-[#005A9C] to-[#5a9bd6] rounded-2xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform'>
                 <div className='flex items-center justify-between'>
                   <div>
                     <p className='text-stone-200 text-sm font-medium mb-1'>
@@ -321,11 +366,11 @@ export default function Home() {
                     </p>
                     <p className='text-4xl font-bold'>{totalBooksCopies}</p>
                   </div>
-                  <div className='text-5xl opacity-20'>📚</div>
+                  <div className='text-5xl opacity-20'></div>
                 </div>
               </div>
 
-              <div className='bg-gradient-to-br from-[#2B3A29] via-[#3F5D43] to-[#4E7C55] rounded-2xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform'>
+              <div className='bg-gradient-to-br from-[#005A9C] to-[#5a9bd6] rounded-2xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform'>
                 <div className='flex items-center justify-between'>
                   <div>
                     <p className='text-stone-200 text-sm font-medium mb-1'>
@@ -333,14 +378,12 @@ export default function Home() {
                     </p>
                     <p className='text-4xl font-bold'>{availableCopies}</p>
                   </div>
-                  <div className='text-5xl opacity-20'>✅</div>
+                  <div className='text-5xl opacity-20'></div>
                 </div>
               </div>
 
               <div
-                className='bg-gradient-to-br from-[#2B3A29] via-[#3F5D43] to-[#4E7C55]
-
-] rounded-2xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform'
+                className='bg-gradient-to-br from-[#005A9C] to-[#5a9bd6] rounded-2xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform'
               >
                 <div className='flex items-center justify-between'>
                   <div>
@@ -349,7 +392,7 @@ export default function Home() {
                     </p>
                     <p className='text-4xl font-bold'>{borrowedCopies}</p>
                   </div>
-                  <div className='text-5xl opacity-20'>📖</div>
+                  <div className='text-5xl opacity-20'></div>
                 </div>
               </div>
             </div>
@@ -358,7 +401,7 @@ export default function Home() {
               {/* Formulaire moderne */}
               <div className='lg:col-span-1 bg-white rounded-2xl shadow-lg p-6 border border-stone-200'>
                 <div className='flex items-center mb-6'>
-                  <div className='w-12 h-12 bg-gradient-to-br from-[#2B3A29] via-[#3F5D43] to-[#4E7C55] rounded-xl flex items-center justify-center text-white text-2xl mr-4'>
+                  <div className='w-12 h-12 bg-gradient-to-br from-[#005A9C] to-[#5a9bd6] rounded-xl flex items-center justify-center text-white text-2xl mr-4'>
                     {editingBook ? "✏️" : "➕"}
                   </div>
                   <h2 className='text-2xl font-bold text-stone-800'>
@@ -506,8 +549,8 @@ export default function Home() {
                     type='submit'
                     className={`w-full py-4 rounded-xl font-bold text-white shadow-lg transition-all duration-300 transform hover:scale-105 ${
                       editingBook
-                        ? "bg-gradient-to-r from-[#2B3A29] via-[#3F5D43] to-[#4E7C55] hover:shadow-neutral-400"
-                        : "bg-gradient-to-r from-[#2B3A29] via-[#3F5D43] to-[#4E7C55] hover:shadow-stone-400"
+                        ? "bg-gradient-to-r from-[#005A9C] to-[#5a9bd6] hover:shadow-neutral-400"
+                        : "bg-gradient-to-r from-[#005A9C] to-[#5a9bd6] hover:shadow-stone-400"
                     }`}
                   >
                     {editingBook ? "💾 Mettre à jour" : "➕ Ajouter le livre"}
@@ -616,13 +659,15 @@ export default function Home() {
                           <div className='flex gap-2'>
                             <button
                               onClick={() => editBook(book)}
-                              className='px-3 py-2 bg-[#3F5D43] text-white rounded-lg text-sm font-semibold hover:bg-[#2B3A29] transition-all shadow-md hover:shadow-lg'
+                              className="flex-1 px-3 py-2 bg-gradient-to-r from-[#005A9C] to-[#5a9bd6] text-white rounded-lg text-sm font-semibold hover:from-[#00497d] hover:to-[#4a8ac3] transition-all"
+
                             >
                               ✏️ Modifier
                             </button>
                             <button
                               onClick={() => deleteBook(book.id)}
-                              className='px-3 py-2 bg-[#3F5D43] text-white rounded-lg text-sm font-semibold hover:bg-[#2B3A29] transition-all shadow-md hover:shadow-lg'
+                              className="px-3 py-2 bg-[#005A9C] text-white rounded-lg text-sm font-semibold hover:bg-[#00497d] transition-all shadow-md hover:shadow-lg hover:scale-105 active:scale-95"
+
                             >
                               🗑️
                             </button>
@@ -649,7 +694,7 @@ export default function Home() {
           <div className='space-y-6'>
             {/* Statistiques membres */}
             <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
-              <div className='bg-gradient-to-br from-[#2B3A29] via-[#3F5D43] to-[#4E7C55] rounded-2xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform'>
+              <div className='bg-gradient-to-br from-[#005A9C] to-[#5a9bd6] rounded-2xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform'>
                 <div className='flex items-center justify-between'>
                   <div>
                     <p className='text-stone-200 text-sm font-medium mb-1'>
@@ -661,7 +706,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className='bg-gradient-to-br from-[#2B3A29] via-[#3F5D43] to-[#4E7C55] rounded-2xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform'>
+              <div className='bg-gradient-to-br from-[#005A9C] to-[#5a9bd6] rounded-2xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform'>
                 <div className='flex items-center justify-between'>
                   <div>
                     <p className='text-stone-200 text-sm font-medium mb-1'>
@@ -786,14 +831,16 @@ export default function Home() {
                         <>
                           <button
                             onClick={() => setEditingMember(member)}
-                            className='flex-1 px-3 py-2 bg-[#4E7C55] text-white rounded-lg text-sm font-semibold hover:bg-[#3F5D43] transition-all'
+                            className="flex-1 px-3 py-2 bg-gradient-to-r from-[#005A9C] to-[#5a9bd6] text-white rounded-lg text-sm font-semibold hover:from-[#00497d] hover:to-[#4a8ac3] transition-all"
+
                           >
                             ✏️ Modifier
                           </button>
 
                           <button
                             onClick={() => deleteMember(member.id)}
-                            className='px-3 py-2 bg-[#3F5D43] text-white rounded-lg text-sm font-semibold hover:bg-[#2B3A29] transition-all shadow-md hover:shadow-lg'
+                            className="px-3 py-2 bg-[#005A9C] text-white rounded-lg text-sm font-semibold hover:bg-[#00497d] transition-all shadow-md hover:shadow-lg hover:scale-105 active:scale-95"
+
                           >
                             🗑️
                           </button>
