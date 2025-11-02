@@ -1,17 +1,19 @@
 "use client";
 import React, { useState, useCallback } from "react";
 import { X, RotateCw } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { auth, db } from "../../lib/firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc,getDoc } from "firebase/firestore";
 import { motion, AnimatePresence } from "framer-motion";
 import LoginFormMotion from "../layout/LoginFormMotion";
 import SignupFormMotion from "../layout/SignupFormMotion";
 
 export default function AuthModal({ onClose }) {
+  const router =useRouter();
   const [signUpFormData, setSignUpFormData] = useState({
     username: "",
     email: "",
@@ -82,13 +84,32 @@ export default function AuthModal({ onClose }) {
           throw new Error("Please enter a valid email address");
         }
 
-        await signInWithEmailAndPassword(
+        const userCredential = await signInWithEmailAndPassword(
           auth,
           loginFormData.usernameOrEmail,
           loginFormData.password
         );
+        const userDoc = await getDoc(doc(db, "members", userCredential.user.uid));
+
         setLoginFormData({ usernameOrEmail: "", password: "" });
         onClose();
+         if (userDoc.exists()) {
+          const userData = userDoc.data();
+          
+          if (userData.role === "admin") {
+            // Rediriger vers la page admin
+            router.push("/admin");
+          } else {
+          // Rediriger les membres normaux vers l'accueil
+          router.push("/");
+        }
+          
+        } else {
+          // Si le document n'existe pas, rediriger vers l'accueil par défaut
+          router.push("/");
+        }
+
+
       } catch (error) {
         if (error.code === "auth/invalid-email") {
           setError("Please enter a valid email address.");
@@ -105,7 +126,7 @@ export default function AuthModal({ onClose }) {
         setLoading(false);
       }
     },
-    [loginFormData, onClose]
+    [loginFormData, onClose,router]
   );
 
   // Animation variants for better performance

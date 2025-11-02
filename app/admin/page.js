@@ -1,8 +1,10 @@
-// app/page.js
+// admin/page.js
 "use client";
 
 import { useState, useEffect } from "react";
-import { db } from "@/lib/firebase";
+import { useRouter } from "next/navigation";
+import { auth,db } from "@/lib/firebase";
+import { signOut } from "firebase/auth";
 import {
   collection,
   getDocs,
@@ -16,6 +18,7 @@ import {
 } from "firebase/firestore";
 
 export default function Home() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("books");
   const [books, setBooks] = useState([]);
   const [members, setMembers] = useState([]);
@@ -25,6 +28,15 @@ export default function Home() {
     message: "",
     type: "success",
   });
+ const handleSignOut = async () => {
+  try {
+    await signOut(auth);
+    setUser(null);
+    window.location.href = "/"; // 👈 AJOUT - Redirection vers home
+  } catch (error) {
+    console.error("Error signing out:", error);
+  }
+};
   const [editingBook, setEditingBook] = useState(null);
   const [editingMember, setEditingMember] = useState(null);
   const [searchBook, setSearchBook] = useState("");
@@ -177,7 +189,7 @@ export default function Home() {
 
   const updateMemberType = async (memberId, newType) => {
     try {
-      await updateDoc(doc(db, "members", memberId), { type: newType });
+      await updateDoc(doc(db, "members", memberId), { role: newType });
       showAlert("Type de membre mis à jour ✅");
       loadMembers();
     } catch (error) {
@@ -236,8 +248,7 @@ export default function Home() {
   const availableCopies = books.reduce((sum, book) => sum + book.available, 0);
   const borrowedCopies = totalBooksCopies - availableCopies;
   const activeMembers = members.filter(
-    (m) => (m.activeBorrowings || 0) > 0
-  ).length;
+    (m) => (m.borrowCount || 0) > 0).length;
 
   return (
     <div className='min-h-screen bg-gradient-to-br from-stone-100 via-neutral-50 to-stone-200 p-4 md:p-8'>
@@ -720,30 +731,30 @@ export default function Home() {
                       </div>
 
                       <div className='flex items-center justify-between'>
-                        <span className='text-stone-600 text-sm'>Type:</span>
+                        <span className='text-stone-600 text-sm'>Role:</span>
                         {editingMember && editingMember.id === member.id ? (
                           <select
-                            value={editingMember.type}
+                            value={editingMember.role}
                             onChange={(e) =>
                               setEditingMember({
                                 ...editingMember,
-                                type: e.target.value,
+                                role: e.target.value,
                               })
                             }
                             className='px-3 py-1 border-2 border-stone-400 rounded-lg text-sm font-semibold focus:ring-2 focus:ring-stone-500'
                           >
-                            <option value='user'>👤 User</option>
+                            <option value='member'>👤 member</option>
                             <option value='admin'>👑 Admin</option>
                           </select>
                         ) : (
                           <span
                             className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                              member.type === "admin"
+                              member.role === "admin"
                                 ? "bg-neutral-200 text-neutral-800"
                                 : "bg-stone-200 text-stone-700"
                             }`}
                           >
-                            {member.type === "admin" ? "👑 Admin" : "👤 User"}
+                            {member.role === "admin" ? "👑 Admin" : "👤 User"}
                           </span>
                         )}
                       </div>
@@ -756,7 +767,7 @@ export default function Home() {
                             onClick={async () => {
                               await updateMemberType(
                                 editingMember.id,
-                                editingMember.type
+                                editingMember.role
                               );
                               setEditingMember(null);
                             }}
