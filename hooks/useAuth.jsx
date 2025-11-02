@@ -22,14 +22,14 @@ export function AuthProvider({ children }) {
   }, []);
 
   const handleSignOut = async () => {
-    try {
-      await signOut(auth);
-      setUser(null);
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
-  };
-
+  try {
+    await signOut(auth);
+    setUser(null);
+    window.location.href = "/"; // 👈 AJOUT - Redirection vers home
+  } catch (error) {
+    console.error("Error signing out:", error);
+  }
+};
   const value = useMemo(
     () => ({
       user,

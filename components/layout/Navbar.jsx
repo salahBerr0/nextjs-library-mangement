@@ -3,6 +3,10 @@ import { BookOpen, User, Bell, Menu, X, Settings } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import Link from 'next/link';
+
+
+
+
 export default function Navbar() {
   const { user, handleSignIn, handleSignOut } = useAuth();
   
