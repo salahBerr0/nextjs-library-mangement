@@ -3,7 +3,7 @@
 import { geistSans, geistMono } from "@/app/fonts";
 import "./globals.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import Navbar from "@/components/layout/Navbar";
+// import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { AuthProvider } from "@/hooks/useAuth";
 import { usePathname } from "next/navigation";
@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <AuthProvider>
-          {!hideNavbar && <Navbar />}
+          {/*!hideNavbar && <Navbar />*/}
           <main className="min-h-screen relative">{children}</main>
           {!hideNavbar && <Footer />}
         </AuthProvider>
