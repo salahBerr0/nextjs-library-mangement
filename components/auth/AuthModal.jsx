@@ -20,7 +20,7 @@ export default function AuthModal({ onClose }) {
     password: "",
   });
   const [loginFormData, setLoginFormData] = useState({
-    usernameOrEmail: "",
+    email: "",
     password: "",
   });
   const [error, setError] = useState("");
@@ -80,36 +80,26 @@ export default function AuthModal({ onClose }) {
       setError("");
       setLoading(true);
       try {
-        if (!loginFormData.usernameOrEmail.includes("@")) {
-          throw new Error("Please enter a valid email address");
-        }
-
         const userCredential = await signInWithEmailAndPassword(
           auth,
-          loginFormData.usernameOrEmail,
+          loginFormData.email, // Now this must be a valid email
           loginFormData.password
         );
+        
         const userDoc = await getDoc(doc(db, "members", userCredential.user.uid));
-
-        setLoginFormData({ usernameOrEmail: "", password: "" });
+        setLoginFormData({ email: "", password: "" });
         onClose();
-         if (userDoc.exists()) {
+        
+        if (userDoc.exists()) {
           const userData = userDoc.data();
-          
           if (userData.role === "admin") {
-            // Rediriger vers la page admin
             router.push("/admin");
           } else {
-          // Rediriger les membres normaux vers l'accueil
-          router.push("/");
-        }
-          
+            router.push("/");
+          }
         } else {
-          // Si le document n'existe pas, rediriger vers l'accueil par défaut
           router.push("/");
         }
-
-
       } catch (error) {
         if (error.code === "auth/invalid-email") {
           setError("Please enter a valid email address.");
@@ -118,15 +108,13 @@ export default function AuthModal({ onClose }) {
         } else if (error.code === "auth/user-not-found") {
           setError("No account found with this email.");
         } else {
-          setError(
-            error.message || "Login failed. Please check your credentials."
-          );
+          setError(error.message || "Login failed. Please check your credentials.");
         }
       } finally {
         setLoading(false);
       }
     },
-    [loginFormData, onClose,router]
+    [loginFormData, onClose, router]
   );
 
   // Animation variants for better performance
