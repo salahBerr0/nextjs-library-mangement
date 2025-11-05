@@ -255,13 +255,13 @@ export default function AdminDashboard() {
   const activeMembers = members.filter((m) => (m.borrowCount || 0) > 0).length;
 
   return (
-    <main className={`min-h-screen  p-4 md:p-8 ${isDarkMode ? 'bg-slate-500' : 'bg-gray-200'}`}>
+    <main className={`min-h-screen p-4 md:p-8 ${isDarkMode ? 'bg-slate-900 text-gray-100' : 'bg-blue-50 text-gray-900'}`}>
       <div className="max-w-7xl mx-auto">
-        {/* Modern header with blue gradient */}
-        <header className="relative overflow-hidden bg-gradient-to-r from-slate-900 to-blue-500 rounded-2xl shadow-xl p-8 mb-8">
+        {/* Modern header with library-appropriate gradient */}
+        <header className="relative overflow-hidden bg-[#0F0C15]  rounded-2xl shadow-xl p-8 mb-8">
           <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-transparent"></div>
 
-          <div className="relative z-10 flex items-center justify-between">
+          <div className="relative z-10 flex flex-wrap items-center justify-between">
             {/* --- LOGO + TITLE --- */}
             <div
               className="flex items-center gap-3 cursor-pointer"
@@ -274,7 +274,7 @@ export default function AdminDashboard() {
                 height={100}
                 className="rounded-md"
               />
-              <h1 className="text-4xl md:text-5xl font-bold text-stone-50 tracking-tight">
+              <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
                 BOOKWISE
               </h1>
             </div>
@@ -285,8 +285,8 @@ export default function AdminDashboard() {
                 onClick={() => setActiveTab("books")}
                 className={`px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform whitespace-nowrap ${
                   activeTab === "books"
-                    ? "bg-white text-stone-700 hover:bg-stone-50 shadow-md border border-stone-300"
-                    : " bg-transparent border-[1px] border-white text-stone-50 shadow-lg scale-[0.7] hover:scale-[0.8]"
+                    ? "bg-white text-slate-800 hover:bg-amber-50 shadow-md border border-blue-300"
+                    : "bg-transparent border-[1px] border-white text-white shadow-lg scale-[0.7] hover:scale-[0.8]"
                 }`}
               >
                 Books
@@ -295,8 +295,8 @@ export default function AdminDashboard() {
                 onClick={() => setActiveTab("members")}
                 className={`px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform whitespace-nowrap ${
                   activeTab === "members"
-                    ? "bg-white text-stone-700 hover:bg-stone-50 shadow-md border border-stone-300"
-                    : "bg-transparent border-[1px] border-white text-stone-50 shadow-lg scale-[0.7] hover:scale-[0.8]"
+                    ? "bg-white text-slate-800 hover:bg-amber-50 shadow-md border border-blue-300"
+                    : "bg-transparent border-[1px] border-white text-white shadow-lg scale-[0.7] hover:scale-[0.8]"
                 }`}
               >
                 Members
@@ -325,20 +325,20 @@ export default function AdminDashboard() {
           <div className="space-y-6">
             {/* Statistics in modern cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-              <div className="bg-gradient-to-r  from-slate-900 to-blue-500 rounded-2xl shadow-lg p-3 text-white transform hover:scale-105 transition-transform">
+              <div className="bg-blue-950 rounded-2xl shadow-lg p-3 text-white transform  transition-transform">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-stone-200 text-sm font-medium mb-1">
+                    <p className="text-blue-100 text-sm font-medium mb-1">
                       Total Books
                     </p>
                     <p className="text-4xl font-bold">{books.length}</p>
                   </div>
                 </div>
               </div>
-              <div className="bg-gradient-to-r from-slate-900 to-blue-500 rounded-2xl shadow-lg p-3 text-white transform hover:scale-105 transition-transform">
+              <div className="bg-blue-950 rounded-2xl shadow-lg p-3 text-white transform transition-transform">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-stone-200 text-sm font-medium mb-1">
+                    <p className="text-blue-100 text-sm font-medium mb-1">
                       Total Copies
                     </p>
                     <p className="text-4xl font-bold">{totalBooksCopies}</p>
@@ -346,10 +346,10 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-r from-slate-900 to-blue-500 rounded-2xl shadow-lg p-3 text-white transform hover:scale-105 transition-transform">
+              <div className="bg-blue-950 rounded-2xl shadow-lg p-3 text-white transform  transition-transform">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-stone-200 text-sm font-medium mb-1">
+                    <p className="text-blue-100 text-sm font-medium mb-1">
                       Available
                     </p>
                     <p className="text-4xl font-bold">{availableCopies}</p>
@@ -357,10 +357,10 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-r from-slate-900 to-blue-500 rounded-2xl shadow-lg p-3 text-white transform hover:scale-105 transition-transform">
+              <div className="bg-blue-950 rounded-2xl shadow-lg p-3 text-white transform  transition-transform">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-stone-200 text-sm font-medium mb-1">
+                    <p className="text-blue-100 text-sm font-medium mb-1">
                       Borrowed
                     </p>
                     <p className="text-4xl font-bold">{borrowedCopies}</p>
@@ -371,7 +371,7 @@ export default function AdminDashboard() {
 
             <div className="grid lg:grid-cols-3 gap-6">
               {/* Modern form */}
-              <div className={`lg:col-span-1 rounded-2xl shadow-lg p-6 border border-stone-200 ${isDarkMode ? 'bg-slate-800 text-white' : 'bg-white text-stone-700'}`}>
+              <div className={`lg:col-span-1 rounded-2xl shadow-lg p-6 border ${isDarkMode ? 'bg-slate-800 border-slate-700 text-gray-100' : 'bg-white border-blue-200 text-gray-900'}`}>
                 <div className="flex items-center mb-6">
                   <h2 className="text-2xl font-bold ">
                     {editingBook ? "Edit" : "Add"} a Book
@@ -380,7 +380,7 @@ export default function AdminDashboard() {
 
                 <form onSubmit={editingBook ? updateBook : addBook} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-semibold  mb-2">
+                    <label className="block text-sm font-semibold mb-2">
                       Title *
                     </label>
                     <input
@@ -389,14 +389,14 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setBookForm({ ...bookForm, title: e.target.value })
                       }
-                      className="w-full px-4 py-3 border-2 border-stone-300 rounded-xl focus:ring-2 focus:ring-stone-500 focus:border-stone-500 transition-all"
+                      className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-white focus:border-white transition-all ${isDarkMode ? 'bg-slate-700 border-slate-600 text-white' : 'border-blue-300 bg-white text-gray-900'}`}
                       placeholder="Book title..."
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold  mb-2">
+                    <label className="block text-sm font-semibold mb-2">
                       Author *
                     </label>
                     <input
@@ -405,14 +405,14 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setBookForm({ ...bookForm, author: e.target.value })
                       }
-                      className="w-full px-4 py-3 border-2 border-stone-300 rounded-xl focus:ring-2 focus:ring-stone-500 focus:border-stone-500 transition-all"
+                      className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-white focus:border-white transition-all ${isDarkMode ? 'bg-slate-700 border-slate-600 text-white' : 'border-blue-300 bg-white text-gray-900'}`}
                       placeholder="Author name..."
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold  mb-2">
+                    <label className="block text-sm font-semibold mb-2">
                       ISBN
                     </label>
                     <input
@@ -421,13 +421,13 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setBookForm({ ...bookForm, isbn: e.target.value })
                       }
-                      className="w-full px-4 py-3 border-2 border-stone-300 rounded-xl focus:ring-2 focus:ring-stone-500 focus:border-stone-500 transition-all"
+                      className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-white focus:border-white transition-all ${isDarkMode ? 'bg-slate-700 border-slate-600 text-white' : 'border-blue-300 bg-white text-gray-900'}`}
                       placeholder="978-..."
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold  mb-2">
+                    <label className="block text-sm font-semibold mb-2">
                       Description
                     </label>
                     <textarea
@@ -440,12 +440,12 @@ export default function AdminDashboard() {
                       }
                       placeholder="Brief book description..."
                       rows="3"
-                      className="w-full px-4 py-3 border-2 border-stone-300 rounded-xl focus:ring-2 focus:ring-stone-500 focus:border-stone-500 resize-none transition-all"
+                      className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-white focus:border-white resize-none transition-all ${isDarkMode ? 'bg-slate-700 border-slate-600 text-white' : 'border-blue-300 bg-white text-gray-900'}`}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold  mb-2">
+                    <label className="block text-sm font-semibold mb-2">
                       Cover Image URL
                     </label>
                     <input
@@ -455,14 +455,14 @@ export default function AdminDashboard() {
                         setBookForm({ ...bookForm, coverImage: e.target.value })
                       }
                       placeholder="https://..."
-                      className="w-full px-4 py-3 border-2 border-stone-300 rounded-xl focus:ring-2 focus:ring-stone-500 focus:border-stone-500 transition-all"
+                      className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-white focus:border-white transition-all ${isDarkMode ? 'bg-slate-700 border-slate-600 text-white' : 'border-blue-300 bg-white text-gray-900'}`}
                     />
                     {bookForm.coverImage && (
                       <div className="mt-4 flex justify-center">
                         <img
                           src={bookForm.coverImage}
                           alt="Preview"
-                          className="w-32 h-48 object-cover rounded-xl shadow-lg border-4 border-stone-100"
+                          className="w-32 h-48 object-cover rounded-xl shadow-lg border-4 border-blue-100"
                           onError={(e) =>
                             (e.target.src =
                               "https://via.placeholder.com/128x192?text=No+Image")
@@ -474,7 +474,7 @@ export default function AdminDashboard() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-semibold  mb-2">
+                      <label className="block text-sm font-semibold mb-2">
                         Category
                       </label>
                       <select
@@ -482,7 +482,7 @@ export default function AdminDashboard() {
                         onChange={(e) =>
                           setBookForm({ ...bookForm, category: e.target.value })
                         }
-                        className="w-full px-4 py-3 border-2 border-stone-300 rounded-xl focus:ring-2 focus:ring-stone-500 focus:border-stone-500 transition-all"
+                        className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-white focus:border-white transition-all ${isDarkMode ? 'bg-slate-700 border-slate-600 text-white' : 'border-blue-300 bg-white text-gray-900'}`}
                       >
                         <option>Fiction</option>
                         <option>Non-Fiction</option>
@@ -505,7 +505,7 @@ export default function AdminDashboard() {
                         onChange={(e) =>
                           setBookForm({ ...bookForm, copies: e.target.value })
                         }
-                        className="w-full px-4 py-3 border-2 border-stone-300 rounded-xl focus:ring-2 focus:ring-stone-500 focus:border-stone-500 transition-all"
+                        className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-white focus:border-white transition-all ${isDarkMode ? 'bg-slate-700 border-slate-600 text-white' : 'border-blue-300 bg-white text-gray-900'}`}
                         required
                       />
                     </div>
@@ -513,7 +513,7 @@ export default function AdminDashboard() {
 
                   <button
                     type="submit"
-                    className='w-full py-4 rounded-xl font-bold text-white shadow-lg transition-all duration-300 transform hover:scale-105 bg-gradient-to-r from-slate-900 to-blue-500'>
+                    className='w-full py-4 rounded-xl font-bold text-white shadow-lg transition-all duration-300 transform hover:scale-105 bg-blue-950 border-white border-[1px]'>
                     {editingBook ? "Update Book" : "Add Book"}
                   </button>
 
@@ -532,7 +532,7 @@ export default function AdminDashboard() {
                           description: "",
                         });
                       }}
-                      className="w-full py-3 bg-stone-200  rounded-xl font-semibold hover:bg-stone-300 transition-all"
+                      className={`w-full py-3 rounded-xl font-semibold transition-all ${isDarkMode ? 'bg-slate-700 text-white hover:bg-slate-600' : 'bg-blue-100 text-blue-800 hover:bg-blue-200'}`}
                     >
                       Cancel
                     </button>
@@ -541,100 +541,92 @@ export default function AdminDashboard() {
               </div>
 
               {/* Books list in cards */}
-              <div className={`lg:col-span-2 rounded-2xl shadow-lg p-6 border overflow-visible border-stone-200 ${isDarkMode ? 'bg-slate-800 text-white' : 'bg-white text-stone-700'}`}>
+              <div className={`lg:col-span-2 rounded-2xl shadow-lg p-6 border overflow-visible ${isDarkMode ? 'bg-slate-800 border-slate-700 text-gray-100' : 'bg-white border-blue-200 text-gray-900'}`}>
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold ">Library</h2>
-                  <span className={`px-4 py-2  rounded-full text-sm font-semibold ${isDarkMode ? 'bg-slate-800 text-white' : 'bg-white text-stone-700'}`}>
-                    {filteredBooks.length} books
-                  </span>
+                  <span className={`px-4 py-2 rounded-full text-sm font-semibold ${isDarkMode ? 'bg-slate-700 text-gray-100' : 'bg-blue-100 text-blue-800'}`}>{filteredBooks.length} books</span>
                 </div>
 
                 <div className="mb-6">
                   <div className="relative">
-                    <input
-                      type="text"
-                      placeholder="Search for a book..."
-                      value={searchBook}
-                      onChange={(e) => setSearchBook(e.target.value)}
-                      className={`w-full px-6 py-4 pl-12 border-2 text-black border-stone-300 rounded-xl focus:ring-2 focus:ring-stone-500 focus:border-stone-500 transition-all ${isDarkMode ? 'bg-slate-100 text-black' : 'bg-white text-stone-700'}`}
-                    />
+                    <input type="text" placeholder="Search for a book..." value={searchBook} onChange={(e) => setSearchBook(e.target.value)} className={`w-full px-6 py-4 pl-12 border-2 rounded-xl focus:ring-2 focus:ring-white focus:border-white transition-all ${isDarkMode ? 'bg-slate-700 border-slate-600 text-white' : 'bg-white border-blue-300 text-gray-900'}`}/>
                   </div>
                 </div>
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[600px] overflow-y-auto pr-2  overflow-visible">
-  {filteredBooks.map((book) => {
-    // Calculate available copies properly
-    const totalCopies = book.copies;
-    const isAvailable = totalCopies > 0;
-    
-    return (
-      <div key={book.id} className={`rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-visible border border-stone-200 p-4 ${isDarkMode ? 'bg-slate-300 text-black' : 'bg-white text-stone-700'}`}>
-        <div className="flex gap-4">
-          <img
-            src={
-              book.coverImage ||
-              "https://via.placeholder.com/80x120?text=No+Cover"
-            }
-            alt={book.title}
-            className="w-20 h-28 object-cover rounded-lg shadow-md"
-            onError={(e) =>
-              (e.target.src =
-                "https://via.placeholder.com/80x120?text=No+Cover")
-            }
-          />
+                <div className="grid grid-cols-1 p-2 h-full md:grid-cols-2 gap-4 max-h-[880px] overflow-y-auto pr-2 overflow-visible">
+                  {filteredBooks.map((book) => {
+                    // Calculate available copies properly
+                    const totalCopies = book.copies;
+                    const isAvailable = totalCopies > 0;
+                    
+                    return (
+                      <div key={book.id} className={`rounded-xl transition-all duration-300 transform hover:-translate-y-1 overflow-visible  border p-4 ${isDarkMode ? 'bg-slate-700 border-slate-600 text-gray-100 shadow-[0_0_5px_#000000]' : 'bg-white border-blue-700 text-gray-900'} `}>
+                        <div className="flex gap-4">
+                          <img
+                            src={
+                              book.coverImage ||
+                              "https://via.placeholder.com/80x120?text=No+Cover"
+                            }
+                            alt={book.title}
+                            className="w-20 h-28 object-cover rounded-lg shadow-[0_0_5px_#000000]"
+                            onError={(e) =>
+                              (e.target.src =
+                                "https://via.placeholder.com/80x120?text=No+Cover")
+                            }
+                          />
 
-          <div className="flex-1 min-w-0">
-            <h3 className="font-bold text-stone-800 text-lg mb-1 truncate">
-              {book.title}
-            </h3>
-            <p className="text-stone-600 text-sm mb-2">
-              {book.author}
-            </p>
+                          <div className="flex-1 min-w-0">
+                            <h3 className={`font-bold text-lg mb-1 truncate ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
+                              {book.title}
+                            </h3>
+                            <p className={`text-sm mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                              {book.author}
+                            </p>
 
-            <div className="flex items-center gap-2 mb-2">
-              <span className="px-2 py-1 bg-stone-200 text-stone-700 rounded-lg text-xs font-semibold">
-                {book.category}
-              </span>
-              <span
-                className={`px-2 py-1 rounded-lg text-xs font-semibold ${
-                  isAvailable
-                    ? "bg-emerald-100 text-emerald-700"
-                    : "bg-rose-100 text-rose-700"
-                }`}
-              >
-                {totalCopies} available
-              </span>
-            </div>
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className={`px-2 py-1 rounded-lg text-xs font-semibold ${isDarkMode ? 'bg-slate-600 text-gray-200' : 'bg-blue-100 text-blue-800'}`}>
+                                {book.category}
+                              </span>
+                              <span
+                                className={`px-2 py-1 rounded-lg text-xs font-semibold ${
+                                  isAvailable
+                                    ? "bg-emerald-100 text-emerald-700"
+                                    : "bg-rose-100 text-rose-700"
+                                }`}
+                              >
+                                {totalCopies} available
+                              </span>
+                            </div>
 
-            {book.description && (
-              <p className="text-stone-500 text-xs line-clamp-2 mb-3">
-                {book.description}
-              </p>
-            )}
+                            {book.description && (
+                              <p className={`text-xs line-clamp-2 mb-3 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                {book.description}
+                              </p>
+                            )}
 
-            <div className="flex gap-2">
-              <button
-                onClick={() => editBook(book)}
-                className="flex-1 px-3 py-2 bg-gradient-to-r from-slate-900 to-blue-500 text-white rounded-lg text-sm font-semibold hover:from-[#00497d] hover:to-[#4a8ac3] transition-all"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => deleteBook(book.id)}
-                className="px-3 py-2 bg-red-900 text-white rounded-lg text-sm font-semibold hover:bg-[#00497d] transition-all shadow-md hover:shadow-lg hover:scale-105 active:scale-95"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  })}
-</div>
+                            <div className="flex gap-2">
+                              <button
+                                onClick={() => editBook(book)}
+                                className="flex-1 px-3 py-2 bg-blue-950 border-white border-[1px] text-white rounded-lg text-sm font-semibold hover:from-amber-800 hover:to-amber-700 transition-all"
+                              >
+                                Edit
+                              </button>
+                              <button
+                                onClick={() => deleteBook(book.id)}
+                                className="px-3 py-2 bg-red-700 text-white rounded-lg text-sm font-semibold hover:bg-red-800 transition-all shadow-md hover:shadow-lg hover:scale-105 active:scale-95"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
 
                 {filteredBooks.length === 0 && (
                   <div className="text-center py-12">
-                    <p className="text-stone-500 text-lg">No books found</p>
+                    <p className={`text-lg ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>No books found</p>
                   </div>
                 )}
               </div>
@@ -647,30 +639,30 @@ export default function AdminDashboard() {
           <div className="space-y-6">
             {/* Member statistics */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-              <div className="bg-blue-900 rounded-2xl shadow-lg p-3 text-white transform hover:scale-105 transition-transform">
+              <div className="bg-blue-950 rounded-2xl shadow-lg p-3 text-white transform transition-transform">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-stone-200 text-sm font-medium mb-1">
+                    <p className="text-amber-100 text-sm font-medium mb-1">
                       Total Members
                     </p>
                     <p className="text-4xl font-bold">{members.length}</p>
                   </div>
                 </div>
               </div>
-              <div className="bg-blue-900 to-blue-500 rounded-2xl shadow-lg p-3 text-white transform hover:scale-105 transition-transform">
+              <div className="bg-blue-950 rounded-2xl shadow-lg p-3 text-white transform  transition-transform">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-stone-200 text-sm font-medium mb-1">
+                    <p className="text-amber-100 text-sm font-medium mb-1">
                       Total Admins
                     </p>
                     <p className="text-4xl font-bold">{members.filter(member => member.role === 'admin').length}</p>
                   </div>
                 </div>
               </div>
-              <div className="bg-blue-900 rounded-2xl shadow-lg p-3 text-white transform hover:scale-105 transition-transform">
+              <div className="bg-blue-950 rounded-2xl shadow-lg p-3 text-white transform  transition-transform">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-stone-200 text-sm font-medium mb-1">
+                    <p className="text-blue-100 text-sm font-medium mb-1">
                       Active Borrowers
                     </p>
                     <p className="text-4xl font-bold">{activeMembers}</p>
@@ -680,10 +672,10 @@ export default function AdminDashboard() {
             </div>
 
             {/* Members list */}
-            <div className={` rounded-2xl  shadow-lg p-6 border border-stone-200 ${isDarkMode ? 'bg-blue-900 text-white' : 'bg-white text-stone-700'}`}>
+            <div className={`rounded-2xl shadow-lg p-6 overflow-visible border ${isDarkMode ? 'bg-slate-800 border-slate-700 text-gray-100' : 'bg-white border-blue-200 text-gray-900'}`}>
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold ">Members</h2>
-                <span className="px-4 py-2 bg-stone-100 text-stone-700 rounded-full text-sm font-semibold">
+                <span className={`px-4 py-2 rounded-full text-sm font-semibold ${isDarkMode ? 'bg-slate-700 text-gray-100' : 'bg-blue-100 text-blue-800'}`}>
                   {filteredMembers.length} members
                 </span>
               </div>
@@ -695,28 +687,25 @@ export default function AdminDashboard() {
                     placeholder="Search for a member..."
                     value={searchMember}
                     onChange={(e) => setSearchMember(e.target.value)}
-                    className={`w-full px-6 py-4 pl-12 border-2 border-stone-300 rounded-xl focus:ring-2 focus:ring-stone-500 focus:border-stone-500 transition-all ${isDarkMode ? 'bg-slate-200 text-black' : 'bg-white text-stone-700'}`}
+                    className={`w-full px-6 py-4 pl-12 border-2 rounded-xl focus:ring-2 focus:ring-white focus:border-white transition-all ${isDarkMode ? 'bg-slate-700 border-slate-600 text-white' : 'bg-white border-blue-300 text-gray-900'}`}
                   />
                   
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[600px] overflow-y-auto pr-2 ">
+              <div className="grid grid-cols-1 p-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[600px] overflow-y-auto pr-2 ">
                 {filteredMembers.map((member) => (
-                  <div
-                    key={member.id}
-                    className={` rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-stone-200 p-5 ${isDarkMode ? 'bg-slate-200 text-black' : 'bg-gradient-to-br from-stone-50 to-neutral-100 text-stone-700'}`}
-                  >
+                  <div key={member.id} className={`rounded-xl transition-all duration-300 transform overflow-visible hover:-translate-y-1 p-5 ${isDarkMode ? 'bg-slate-700 border-slate-600 text-gray-100' : 'bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 text-gray-900'}`} >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-3">
-                        <div className={`w-12 h-12  rounded-full flex items-center justify-center text-white text-xl font-bold ${member.role==="admin" ? "bg-gradient-to-r from-slate-900 to-blue-500":"bg-gray-500"}`}>
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white text-xl font-bold border-[1px] border-white ${member.role==="admin" ? `bg-blue-950 ${isDarkMode ? 'shadow-[0_0_5px_#ffffff]':'shadow-[0_0_5px_#000000]'} `:"bg-gray-500"}`}>
                           {member.username.charAt(0).toUpperCase()}
                         </div>
                         <div>
-                          <h3 className="font-bold text-stone-800 text-lg">
+                          <h3 className={`font-bold text-lg ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
                             {member.username}
                           </h3>
-                          <p className="text-stone-500 text-sm">
+                          <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                             {member.email}
                           </p>
                         </div>
@@ -725,15 +714,15 @@ export default function AdminDashboard() {
 
                     <div className="space-y-2 mb-4">
                       <div className="flex items-center justify-between">
-                        <span className="text-stone-600 text-sm">
+                        <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                           History loans total:
                         </span>
                         {member.borrowCount ?(
-                          <span className="px-3 py-1 bg-stone-200 text-stone-700 rounded-full text-sm font-semibold">
+                          <span className={`px-3 py-1 rounded-full text-sm font-semibold ${isDarkMode ? 'bg-slate-600 text-gray-200' : 'bg-blue-100 text-blue-800'}`}>
                           {member.borrowCount}
                         </span>
                         ):(
-                          <span className="px-3 py-1 bg-stone-200 text-stone-700 rounded-full text-sm font-semibold">
+                          <span className={`px-3 py-1 rounded-full text-sm font-semibold ${isDarkMode ? 'bg-slate-600 text-gray-200' : 'bg-blue-100 text-blue-800'}`}>
                           0
                         </span>
                         )}
@@ -741,7 +730,7 @@ export default function AdminDashboard() {
                       </div>
 
                       <div className="flex items-center justify-between">
-                        <span className="text-stone-600 text-sm">Role:</span>
+                        <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Role:</span>
                         {editingMember && editingMember.id === member.id ? (
                           <select
                             value={editingMember.role}
@@ -751,14 +740,14 @@ export default function AdminDashboard() {
                                 role: e.target.value,
                               })
                             }
-                            className="px-3 py-1 border-2 text-black border-stone-400 rounded-lg text-sm font-semibold focus:ring-2 focus:ring-stone-500"
+                            className="px-3 py-1 border-2 text-black border-blue-400 rounded-lg text-sm font-semibold focus:ring-2 focus:ring-blue-500"
                           >
                             <option value="member">Member</option>
                             <option value="admin">Admin</option>
                           </select>
                         ) : (
                           <span
-                            className='px-3 py-1 rounded-full text-sm font-semibold text-black'
+                            className={`px-3 py-1 rounded-full text-sm font-semibold  border-[1px] ${isDarkMode ? 'bg-slate-600 text-gray-200 border-white' : 'bg-blue-100 text-blue-800 border-blue-950'}`}
                           >
                             {member.role === "admin" ? "Admin" : "User"}
                           </span>
@@ -783,7 +772,7 @@ export default function AdminDashboard() {
                           </button>
                           <button
                             onClick={() => setEditingMember(null)}
-                            className="px-3 py-2 bg-stone-400 text-white rounded-lg text-sm font-semibold hover:bg-stone-500 transition-all"
+                            className="px-3 py-2 bg-gray-500 text-white rounded-lg text-sm font-semibold hover:bg-gray-600 transition-all"
                           >
                             Cancel
                           </button>
@@ -792,14 +781,14 @@ export default function AdminDashboard() {
                         <>
                           <button
                             onClick={() => setEditingMember(member)}
-                            className="flex-1 px-3 py-2 bg-gray-500 text-white rounded-lg text-sm font-semibold hover:from-[#00497d] hover:to-[#4a8ac3] transition-all"
+                            className="flex-1 px-3 py-2 bg-blue-950 border-white border-[1px] text-white rounded-lg text-sm font-semibold hover:bg-blue-800  transition-all"
                           >
                             Edit
                           </button>
 
                           <button
                             onClick={() => deleteMember(member.id)}
-                            className="px-3 py-2 bg-red-900 text-white rounded-lg text-sm font-semibold hover:bg-[#00497d] transition-all shadow-md hover:shadow-lg hover:scale-105 active:scale-95"
+                            className="px-3 py-2 bg-red-700 text-white rounded-lg text-sm font-semibold hover:bg-red-800 transition-all shadow-md hover:shadow-lg hover:scale-105 active:scale-95"
                           >
                             Delete
                           </button>
@@ -812,7 +801,7 @@ export default function AdminDashboard() {
 
               {filteredMembers.length === 0 && (
                 <div className="text-center py-12">
-                  <p className="text-stone-500 text-lg">No members found</p>
+                  <p className={`text-lg ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>No members found</p>
                 </div>
               )}
             </div>

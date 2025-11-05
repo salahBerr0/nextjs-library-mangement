@@ -81,7 +81,7 @@ export default function BookCard({book,isAdmin,isExpanded,onExpand,onEdit,onDele
     <>
       {!isExpanded ? (
         // Collapsed View
-        <div ref={cardRef} className={`group relative bg-white rounded-2xl overflow-hidden w-[320px] h-[440px] transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl shadow-lg border border-gray-100 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`} style={{ transform: `translate(${position.x}px, ${position.y}px)`, transition: isDragging ? 'none' : 'transform 0.2s ease' }} onMouseDown={(e) => handleMouseDown(e, false)} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}>
+        <div ref={cardRef} className={`group relative bg-white rounded-2xl overflow-hidden w-[320px] h-[440px] transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl shadow-lg border border-gray-100 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`} style={{ transform: `translate(${position.x}px, ${position.y}px)`, transition: isDragging ? 'none' : 'transform 0.2s ease', boxShadow:'0 0 15px #000000' }} onMouseDown={(e) => handleMouseDown(e, false)} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}>
           <img src={book.coverImage} alt={book.title} className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" />
           <div className="absolute z-0 inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           

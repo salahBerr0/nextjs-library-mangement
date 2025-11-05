@@ -4,7 +4,7 @@ import {createContext, useContext, useState, useEffect} from 'react';
 const ThemeContext=createContext();
 
 export function ThemeProvider({children}){
-    const [isDarkMode, setIsDarkMode]=useState(false);
+    const [isDarkMode, setIsDarkMode]=useState(true);
     useEffect(()=>{
         const savedTheme=localStorage.getItem('theme');
         if(savedTheme){setIsDarkMode(savedTheme ==='dark');}

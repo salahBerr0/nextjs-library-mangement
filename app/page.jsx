@@ -11,6 +11,7 @@ import SearchBar from '@/components/books/SearchBar';
 import { useAuth } from '../hooks/useAuth';
 import { useBooks } from '../hooks/useBooks';
 import { useTheme } from '@/components/contexts/ThemeContext';
+import Header from '@/components/layout/Header';
 
 export default function HomePage() {
   const router = useRouter();
@@ -38,7 +39,8 @@ export default function HomePage() {
   } = useBooks();
 
   return (
-    
+    <>
+      <Header/>
     <main className={`min-h-screen relative grid content-center justify-items-center gap-5 transition-all p-5 duration-500 ${isDarkMode ? 'bg-gradient-to-br from-gray-900 via-slate-900 to-gray-900' : 'bg-gradient-to-br from-blue-50 via-white to-indigo-50'}`}>
         <SearchBar  searchTerm={searchTerm}  onSearchChange={setSearchTerm}/>
       <div className={`rounded-2xl p-6 w-max transition-all duration-500 border backdrop-blur-sm ${ isDarkMode   ? 'bg-slate-800/50 border-slate-700'   : 'bg-white/80 border-gray-200'}`}>
@@ -110,5 +112,7 @@ export default function HomePage() {
         <AuthModal onClose={() => setShowAuthModal(false)} />
       )}
     </main>
+        </>
+
   );
 }

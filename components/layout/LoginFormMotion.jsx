@@ -22,7 +22,7 @@ export default function LoginFormMotion({ error, handleLogin, loginFormData, set
               <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
               <PasswordInputWithToggle password={loginFormData.password} onChange={(e) => setLoginFormData({ ...loginFormData, password: e.target.value })} placeholder="Enter your password" autoComplete="current-password"/>
             </div>
-            <button  type="submit"  disabled={loading} className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-400 text-white font-semibold py-3 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center">{loading ? (<><div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>Signing In...</>) : ('Sign In')}</button>
+            <button  type="submit"  disabled={loading} className="w-full bg-blue-950 hover:bg-blue-700 disabled:from-gray-400 disabled:to-gray-400 text-white font-semibold py-3 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center">{loading ? (<><div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>Signing In...</>) : ('Sign In')}</button>
         </form>
     </motion.div>
   );

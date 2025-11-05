@@ -26,7 +26,7 @@ export default function SearchFilters({selectedCategory, onCategoryChange}) {
           className={`px-4 py-2 rounded-lg font-medium transition-all ${
             selectedCategory === category
               ? 'bg-blue-600 text-white shadow-lg'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              : 'bg-gray-500 text-gray-700 hover:bg-gray-300'
           }`}
         >
           {category}
