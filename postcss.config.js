@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 module.exports = {
   plugins: {
     tailwindcss: {},
