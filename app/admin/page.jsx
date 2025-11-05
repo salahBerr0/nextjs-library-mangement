@@ -258,7 +258,7 @@ export default function AdminDashboard() {
     <main className={`min-h-screen p-4 md:p-8 ${isDarkMode ? 'bg-slate-900 text-gray-100' : 'bg-blue-50 text-gray-900'}`}>
       <div className="max-w-7xl mx-auto">
         {/* Modern header with library-appropriate gradient */}
-        <header className="relative overflow-hidden bg-[#0F0C15]  rounded-2xl shadow-xl p-8 mb-8">
+        <header className="relative overflow-hidden bg-blue-950   rounded-2xl shadow-xl p-8 mb-8">
           <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-transparent"></div>
 
           <div className="relative z-10 flex flex-wrap items-center justify-between">

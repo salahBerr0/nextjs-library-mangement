@@ -27,7 +27,11 @@ const Header = () => {
         </div>
         <div className=' h-full grid content-center justify-center pt-44'>
           <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-2xl leading-relaxed">Discover, Read, and Manage Your Book Collection with Ease</p>
-          <button className="bg-[#0F0C15] hover:bg-blue-100 hover:text-black text-white font-semibold py-2  rounded-lg text-lg md:text-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border-2 border-white/20"><i className="fas fa-book"></i>Explore Our Collection</button>
+<p className="text-3xl font-bold 
+text-white/90 mb-10 max-w-4xl leading-relaxed">
+  Explore Our Collection
+</p>
+
         </div>
         
       </div>
